@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Track Token • SmartQueue{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-8">
+<div class="text-center mb-4"><div class="text-primary text-uppercase fw-bold small">Live status</div><h2 class="fw-black page-heading">Track Your Queue Token</h2><p class="text-muted">Enter your token number to see your current status and estimated wait.</p></div>
+<div class="card shadow-sm mb-4"><div class="card-body p-3"><form method="post" class="d-flex gap-2"><input name="token" value="{{ query }}" class="form-control form-control-lg text-uppercase" placeholder="Enter token, e.g. Q001" required><button class="btn btn-primary px-4"><i class="bi bi-search me-2"></i>Track</button></form></div></div>
+{% if appt %}
+<div class="card ticket-card"><div class="card-body p-4 p-lg-5">
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3"><div><div class="label">Token Number</div><div class="display-5 fw-black">{{ appt.token }}</div></div><span class="badge status-pill status-{{ appt.status }} text-capitalize">{{ appt.status }}</span></div>
+<hr class="my-4"><div class="d-flex align-items-center gap-3 mb-4"><div class="metric-icon"><i class="bi bi-person"></i></div><div><div class="fw-bold">{{ appt.customer_name }}</div><div class="text-muted">{{ appt.service_name }}</div></div></div>
+<div class="row text-center g-3"><div class="col-4"><div class="mini-stat h-100"><small class="text-muted">Position</small><div class="fs-3 fw-black">{{ metrics.position }}</div></div></div><div class="col-4"><div class="mini-stat h-100"><small class="text-muted">People Ahead</small><div class="fs-3 fw-black">{{ metrics.people_ahead }}</div></div></div><div class="col-4"><div class="mini-stat h-100"><small class="text-muted">Est. Wait</small><div class="fs-3 fw-black">{{ metrics.estimated_wait }}m</div></div></div></div>
+</div></div>
+{% endif %}
+</div></div>
+{% endblock %}
