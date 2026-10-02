@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Your Token {{ appt.token }} • SmartQueue{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-8">
+<div class="card ticket-card"><div class="ticket-top p-4 p-lg-5 text-center">
+  <div class="eyebrow mb-3"><i class="bi bi-ticket-perforated-fill"></i> Digital queue token</div>
+  <div class="token-number">{{ appt.token }}</div>
+  <div class="mt-3"><span id="statusBadge" class="badge bg-light text-dark status-pill text-capitalize">{{ appt.status }}</span></div>
+</div><div class="card-body p-4 p-lg-5">
+  <div class="row g-4">
+    <div class="col-sm-6"><div class="label">Customer</div><strong>{{ appt.customer_name }}</strong></div>
+    <div class="col-sm-6"><div class="label">Service</div><strong>{{ appt.service_name }}</strong></div>
+    <div class="col-sm-6"><div class="label">Appointment Date</div><strong>{{ appt.appointment_date }}</strong></div>
+    <div class="col-sm-6"><div class="label">Preferred Time</div><strong>{{ appt.appointment_time }}</strong></div>
+  </div>
+  <hr class="my-4">
+  <div class="row g-3 text-center">
+    <div class="col-4"><div class="mini-stat h-100"><div class="label">Position</div><div class="fs-3 fw-black" id="position">{{ metrics.position }}</div></div></div>
+    <div class="col-4"><div class="mini-stat h-100"><div class="label">People Ahead</div><div class="fs-3 fw-black" id="ahead">{{ metrics.people_ahead }}</div></div></div>
+    <div class="col-4"><div class="mini-stat h-100"><div class="label">Est. Wait</div><div class="fs-3 fw-black"><span id="wait">{{ metrics.estimated_wait }}</span><small class="fs-6">m</small></div></div></div>
+  </div>
+  <div class="soft-panel p-3 mt-4 d-flex align-items-center gap-3"><i class="bi bi-info-circle-fill text-primary fs-4"></i><div><strong>Keep this page open.</strong><div class="small text-muted">Your position and estimated waiting time refresh automatically.</div></div></div>
+  <div class="d-flex flex-wrap justify-content-center gap-2 mt-4"><a href="{{ url_for('queue_board') }}" class="btn btn-primary"><i class="bi bi-broadcast me-2"></i>Open Live Queue</a><a href="{{ url_for('track') }}" class="btn btn-outline-dark">Track Another Token</a></div>
+</div></div></div></div>
+{% endblock %}
+{% block scripts %}
+<script>
+setInterval(async () => {
+  const r = await fetch('{{ url_for("api_status", appointment_id=appt.id) }}');
+  if (!r.ok) return;
+  const d = await r.json();
+  document.getElementById('statusBadge').textContent = d.status;
+  document.getElementById('position').textContent = d.position;
+  document.getElementById('ahead').textContent = d.people_ahead;
+  document.getElementById('wait').textContent = d.estimated_wait;
+}, 4000);
+</script>
+{% endblock %}
