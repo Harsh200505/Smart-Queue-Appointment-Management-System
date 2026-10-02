@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Book Appointment • SmartQueue{% endblock %}
+{% block content %}
+<div class="row g-4 align-items-stretch">
+  <div class="col-lg-4">
+    <div class="hero p-4 h-100 text-white">
+      <span class="eyebrow mb-3"><i class="bi bi-calendar2-check"></i> New booking</span>
+      <h2 class="fw-black page-heading">Reserve your place before you arrive.</h2>
+      <p class="mb-4">Pick your service and preferred time. We’ll instantly generate a trackable queue token.</p>
+      <div class="glass-panel p-3"><div class="d-flex gap-3 mb-3"><i class="bi bi-check-circle-fill"></i><span>Instant token generation</span></div><div class="d-flex gap-3 mb-3"><i class="bi bi-check-circle-fill"></i><span>Live position tracking</span></div><div class="d-flex gap-3"><i class="bi bi-check-circle-fill"></i><span>Estimated waiting time</span></div></div>
+    </div>
+  </div>
+  <div class="col-lg-8"><div class="card shadow-sm h-100"><div class="card-body p-4 p-lg-5"><div class="mb-4"><div class="text-primary fw-bold small text-uppercase">Appointment details</div><h2 class="fw-black page-heading mb-1">Book an Appointment</h2><p class="text-muted mb-0">Fields marked with * are required.</p></div>
+<form method="post" class="row g-3">
+  <div class="col-md-6"><label class="form-label fw-semibold">Full Name *</label><div class="input-group"><span class="input-group-text bg-white"><i class="bi bi-person"></i></span><input name="name" class="form-control" placeholder="Enter your name" required></div></div>
+  <div class="col-md-6"><label class="form-label fw-semibold">Phone *</label><div class="input-group"><span class="input-group-text bg-white"><i class="bi bi-phone"></i></span><input name="phone" class="form-control" placeholder="Phone number" required></div></div>
+  <div class="col-12"><label class="form-label fw-semibold">Email</label><div class="input-group"><span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span><input name="email" type="email" class="form-control" placeholder="name@example.com"></div></div>
+  <div class="col-md-6"><label class="form-label fw-semibold">Service *</label><select name="service_id" class="form-select" required><option value="">Select a service</option>{% for s in services %}<option value="{{ s.id }}">{{ s.name }} · ~{{ s.avg_minutes }} min</option>{% endfor %}</select></div>
+  <div class="col-md-3"><label class="form-label fw-semibold">Date *</label><input name="appointment_date" type="date" min="{{ today }}" value="{{ today }}" class="form-control" required></div>
+  <div class="col-md-3"><label class="form-label fw-semibold">Preferred Time *</label><input name="appointment_time" type="time" class="form-control" required></div>
+  <div class="col-12 pt-2"><button class="btn btn-primary btn-lg w-100"><i class="bi bi-ticket-perforated me-2"></i>Confirm & Generate Token</button></div>
+</form></div></div></div>
+</div>
+{% endblock %}
